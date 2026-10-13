@@ -3,6 +3,10 @@ package com.example.kimiwidget
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.action.ActionParameters
+import androidx.glance.appwidget.action.actionParametersOf
+import androidx.glance.appwidget.action.actionRunCallback
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
