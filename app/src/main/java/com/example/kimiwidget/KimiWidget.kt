@@ -3,14 +3,8 @@ package com.example.kimiwidget
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import androidx.glance.appwidget.action.ActionCallback
-import androidx.glance.appwidget.action.ActionParameters
-import androidx.glance.appwidget.action.actionParametersOf
-import androidx.glance.appwidget.action.actionRunCallback
 import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.glance.Button
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -30,7 +24,6 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
-import androidx.glance.text.TextField
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.dp
 import androidx.glance.unit.sp
@@ -68,7 +61,6 @@ class KimiWidget : GlanceAppWidget() {
 
 @Composable
 private fun WidgetContent() {
-    val input = remember { mutableStateOf("") }
     val now = Date()
     val fmt = SimpleDateFormat("HH:mm", Locale.getDefault())
     val hour = SimpleDateFormat("HH", Locale.getDefault()).format(now).toInt()
@@ -93,29 +85,8 @@ private fun WidgetContent() {
 
         Text(text = greeting, style = TextStyle(fontSize = 13.sp))
 
-        Row(
-            modifier = GlanceModifier.fillMaxWidth().padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            TextField(
-                value = input.value,
-                onValueChange = { input.value = it },
-                modifier = GlanceModifier.defaultWeight(),
-                placeholder = { Text("Ask Kimi...") }
-            )
-            Button(
-                text = "Send",
-                enabled = input.value.isNotBlank(),
-                onClick = {
-                    actionRunCallback<SendPrompt>(
-                        actionParametersOf(SendPrompt.PromptKey to input.value)
-                    )
-                }
-            )
-        }
-
-        KimiWidget.SHORTCUTS.chunked(3).forEach { rowItems ->
-            Row(modifier = GlanceModifier.fillMaxWidth()) {
+        KimiWidget.SHORTCUTS.chunked(2).forEach { rowItems ->
+            Row(modifier = GlanceModifier.fillMaxWidth().padding(top = 8.dp)) {
                 rowItems.forEach { (label, prompt) ->
                     Button(
                         text = label,
